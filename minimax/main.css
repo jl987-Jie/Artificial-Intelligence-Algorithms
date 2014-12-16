@@ -1,55 +1,49 @@
-h1 {
-	color:#0099FF;
-}
 body {
-	top:-10px;
-	position: fixed;
+	font-family: 'ubuntu', sans-serif;
+}
 
-	margin:0px 10%;
-	width:80%;
+h1 {
+	color:#c52033;
+}
 
-	padding-bottom: 100px;
-	padding-top: 40px;
+table{
+	width: 70%;
+}
+
+#left{
 	
-	text-align: center;
-
-	box-shadow:0px 0px 5px 1px;
-
-	font-family: 'Merriweather Sans', sans-serif;
+	display: table-cell;
 }
 
-p {
-	padding: 1em 5em;
+#right{
 	text-align: left;
+	display: table-cell;
 }
 
-canvas {
-	postion:center;
-}
 
 .button {
+	background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #e63146), color-stop(1, #8f1f2c));
+	background:-moz-linear-gradient(top, #e63146 5%, #8f1f2c 100%);
+	background:-webkit-linear-gradient(top, #e63146 5%, #8f1f2c 100%);
+	background:-o-linear-gradient(top, #e63146 5%, #8f1f2c 100%);
+	background:-ms-linear-gradient(top, #e63146 5%, #8f1f2c 100%);
+	background:linear-gradient(to bottom, #e63146 5%, #8f1f2c 100%);
+        font-family: 'ubuntu',sans-serif;
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#e63146', endColorstr='#8f1f2c',GradientType=0);
+	background-color:#e63146;
+	
 	padding:10px 125px;
-	background-color: #0099FF;
-	border-radius: 5px;
 	color: white;
-	cursor: pointer;
-
-	transition: background-color .1s ease-in;
+	cursor:pointer;
 }
 
 .button:hover {
-	background-color: #00BBFF;
-	
-	transition: background-color .1s ease-in;
-}
-
-#button_container {
-	display: inline-block;
-	padding:20px;
-	width:300px;
-}
-
-.register {
-	text-align: center;
-	margin-bottom: -2.5em;
+	background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #8f1f2c), color-stop(1, #e63146));
+	background:-moz-linear-gradient(top, #8f1f2c 5%, #e63146 100%);
+	background:-webkit-linear-gradient(top, #8f1f2c 5%, #e63146 100%);
+	background:-o-linear-gradient(top, #8f1f2c 5%, #e63146 100%);
+	background:-ms-linear-gradient(top, #8f1f2c 5%, #e63146 100%);
+	background:linear-gradient(to bottom, #8f1f2c 5%, #e63146 100%);
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#8f1f2c', endColorstr='#e63146',GradientType=0);
+	background-color:#8f1f2c;
 }
