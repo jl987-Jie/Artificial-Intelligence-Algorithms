@@ -6,11 +6,12 @@
   <link href="../css/bootstrap.min.css" rel="stylesheet">
   <link href="main.css" rel="stylesheet">
   <script src="js/d3.v3.min.js"></script>
-
+<script src="js/jquery-1.9.1.min.js"></script>x
 </head>
 
 <body>
   <!-- Navigation -->
+
   <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
     <div class="container">
         <!-- Brand and toggle get grouped for better mobile display -->
@@ -24,14 +25,165 @@
     </div>
     <!-- /.container -->
   </nav>
-	<div class="container">
+  <div class="container">
   <div id="display"></div>
     <div class="control-group">
-      <p>The Perceptron algorithm will try to correctly classify a mis-classified points when an user selects
+<!--       <p>The Perceptron algorithm will try to correctly classify a mis-classified points when an user selects
       a misclassified points (labeled by bold dark rings). It's a linear classifier so when the dataset is
-      linearly inseparable, the Perceptron will have misclassifications.</p>
+      linearly inseparable, the Perceptron will have misclassifications.</p> -->
     </div>
   </div>
-<script src="perceptron.js"></script>
+  <div class="container-fluid">
+    <div class="row-fluid">
+        <div class="span3">
+            <div class="well sidebar-nav">
+                <form>
+                    <fieldset>
+                        <div class="control-group">
+                            <label class="control-label" for="inputNumObservations">Observations</label>
+                            <div class="controls">
+                                <div class="input-append">
+                                    <button id="buttonGenerate" type="button" class="btn btn-inverse" onclick="updatePerceptron()">Update</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label" for="inputNumCentroids">Test Point</label>
+                            <div class="controls">
+                                <div class="input-append">
+                                    <input type="text" id="inputTestx" style="width:50px;">
+                                    <input type="text" id="inputTesty" style="width:50px;">
+                                    <button id="buttonCluster" type="button" class="btn btn-inverse" onclick="inputTestPoint()">Input</button>
+                                </div>
+                            </div>
+                        </div>
+                    </fieldset>
+
+                </form>
+            </div><!--/.well -->
+        </div><!--/span-->
+        <div class="span9">
+            <div class="hero-unit">
+                <div id="visualization">
+
+                </div>
+            </div>
+
+        </div><!--/span-->
+    </div><!--/row-->
+
+</div><!--/.fluid-container-->
+<script>
+var normalGenerator = d3.random.normal();
+// initialize weight vector to <0, 0>
+var weights = { x: 1, y: 1 };
+// current training point
+var current_point = { x: 0, y: 0 }
+var height = 600;
+var width = 600;
+var svg = d3.select("#display").append("svg").attr("height", height).attr("width", width);
+var xScale = d3.scale.linear().domain([-5, 5]).range([0, width]);
+var yScale = d3.scale.linear().domain([-5, 5]).range([height, 0]);
+var inverseXScale = d3.scale.linear().domain([0, width]).range([-5, 5]);
+var fill = function(point) { if (point.label > 0) { return "blue"; } else { return "red"; } };
+var stroke = function(point) {
+  if (point.x == current_point.x & point.y == current_point.y) { 
+    return "black"; 
+  }
+};
+var classify = function(testpoint) {
+    var prediction = testpoint.x * weights.x + testpoint.y * weights.y;
+    if (prediction * testpoint.label > 0) { return "blue"; } else { return "red"; }
+};
+
+// Axes
+svg.append("line").attr("x1", xScale(0)).attr("x2", xScale(0))
+  .attr("y1", 0).attr("y2", height)
+  .style("stroke", "gray");
+
+svg.append("line").attr("y1", yScale(0)).attr("y2", yScale(0))
+  .attr("x1", 0).attr("x2", width)
+  .style("stroke", "gray");
+
+var classifier = svg.append("line")
+  .attr("x1", xScale(0)).attr("y1", yScale(0))
+  .attr("x2", xScale(weights.x)).attr("y2", yScale(weights.y))
+  .attr("stroke", "black").attr("stroke-width", 3);
+
+var separator = svg.append("line")
+  .attr("x1", 0).attr("x2", width)
+  .attr("y1", yScale( -weights.x * inverseXScale(0) / weights.y ))
+  .attr("y2", yScale( -weights.x * inverseXScale(width) / weights.y ))
+  .style("stroke", "#aaa");
+
+var generate_random_points = function() {
+  var normal = d3.random.normal();
+  var points = [];
+  for (var i = 0; i < 20; i++) {
+    points.push({ x: normal() - 1.0, y: normal() + 1.0, label: 1 });
+  }
+  for (var i = 0; i < 20; i++) {
+    points.push({ x: normal() + 1.0, y: normal() - 1.0, label: -1 });
+  }
+  return points;
+};
+
+var trainingData = generate_random_points();
+var current_index = 0;
+
+var points;
+points = svg.selectAll("circle").data(trainingData).enter().append("circle")
+ .attr("cx", function(point) { return xScale(point.x); })
+ .attr("cy", function(point) { return yScale(point.y); })
+ .attr("r", 5)
+ .style("stroke-width", 2)
+ .style("fill", fill)
+ .style("stroke", stroke);
+
+function updatePerceptron() {
+  // console.log('hi')
+  current_point = trainingData[current_index]
+  var prediction = trainingData[current_index].x * weights.x + trainingData[current_index].y * weights.y;
+  console.log(prediction);
+  console.log(current_index)
+  
+  if (prediction * trainingData[current_index].label <= 0) {
+   weights.x += trainingData[current_index].label * trainingData[current_index].x;
+   weights.y += trainingData[current_index].label * trainingData[current_index].y;
+   console.log(weights.x)
+   console.log(weights.y)
+  }
+
+  current_index = (current_index + 1) % trainingData.length
+  points.data(trainingData).transition()
+   .style("fill", fill)
+   .style("stroke", stroke);
+
+  classifier.transition()
+    .attr("x2", xScale(weights.x)).attr("y2", yScale(weights.y));
+
+  separator.transition()
+    .attr("y1", yScale( -weights.x * inverseXScale(0) / weights.y ))
+    .attr("y2", yScale( -weights.x * inverseXScale(width) / weights.y ));
+};
+
+
+function inputTestPoint() {
+  var testx = $("#inputTestx").val();
+  var testy = $("#inputTesty").val();
+  testpoint = { x : testx, y : testy }
+  var prediction = testpoint.x * weights.x + testpoint.y * weights.y;
+  var color;
+  if (prediction > 0) { color = "blue"; } else { color = "red"; }
+  var points = svg.append("circle")
+   .attr("cx", xScale(testx))
+   .attr("cy", yScale(testy))
+   .attr("r", 5)
+   .style("stroke-width", 2)
+   .style("fill", color);
+}
+
+</script>
+
 </body>
 </html>

@@ -9,7 +9,7 @@
     <link href="css/main.css" rel="stylesheet">
     <style>
         body {
-            padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
+            padding-top: 60px;
         }
     </style>
 
@@ -30,12 +30,21 @@
 
 <div class="container-fluid">
     <div class="row-fluid">
+
+        <div class="span9">
+            <div class="hero-unit">
+                <div id="visualization">
+
+                </div>
+            </div>
+
+        </div><!--/span-->
         <div class="span3">
             <div class="well sidebar-nav">
                 <form>
                     <fieldset>
                         <div class="control-group">
-                            <label class="control-label" for="inputNumObservations">Observations</label>
+                            <label class="control-label" for="inputNumObservations">Number of Data Points</label>
                             <div class="controls">
                                 <div class="input-append">
                                     <input type="text" id="inputNumObservations" style="width:30px;">
@@ -45,18 +54,23 @@
                         </div>
 
                         <div class="control-group">
-                            <label class="control-label" for="inputNumCentroids">Centroids (max: 7)</label>
+                            <label class="control-label" for="inputNumCentroids">Number of Clusters: (max: 7)</label>
                             <div class="controls">
                                 <div class="input-append">
                                     <input type="text" id="inputNumCentroids" style="width:30px;">
-                                    <button id="buttonCluster" type="submit" class="btn btn-primary">Cluster</button>
+                                    <button id="buttonCluster" type="submit" class="btn btn-inverse">Cluster</button>
                                 </div>
                             </div>
+                        </div>
+
+                        <div class="control-group">
+                            <label class="control-label" for="inputNumCentroids">Number of Iterations: 
+                                <span id="num_clusters"></span></label>
                         </div>
                     </fieldset>
 
                 </form>
-            </div><!--/.well -->
+            </div>
             <div class="control-group">
                 <p>The K-means clustering demo will generate a set of points in the 2D space. Users can select
                 the number of clusters (centroids) that they want to cluster the points. The distance function is
@@ -64,22 +78,10 @@
                 </p>
             </div>
         </div><!--/span-->
-        <div class="span9">
-            <div class="hero-unit">
-                <div id="visualization">
-
-                </div>
-            </div>
-
-        </div><!--/span-->
     </div><!--/row-->
 
 </div><!--/.fluid-container-->
 
-
-<!-- Ze javascript
-================================================== -->
-<!-- Placed at the end of the document so the pages load faster -->
 <script src="js/jquery-1.9.1.min.js"></script>
 <script src="js/bootstrap.min.js"></script>
 <script src="js/d3.v3.min.js"></script>

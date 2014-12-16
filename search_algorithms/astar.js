@@ -1,4 +1,9 @@
-
+/* 
+ * Note that this site
+ * http://www.briangrinstead.com/blog/astar-search-algorithm-in-javascript 
+ * was able to provide the grid layout and the a star search. 
+ * We implemented the Breadth First Search and Depth First Search.
+ */
 (function(definition) {
     /* global module, define */
     if(typeof module === 'object' && typeof module.exports === 'object') {
@@ -16,6 +21,7 @@
 
 /* Creates a new queue. A queue is a first-in-first-out (FIFO) data structure -
  * items are added to the end of the queue and removed from the front.
+ * http://code.stephenmorley.org/javascript/queues/#download
  */
 function Queue(){
 
@@ -93,7 +99,7 @@ function pathLen(node) {
     return len;
 }
 
-// uniform cost search: RN&N page: 84
+// depth first search: RN&N page: 84
 var dfs = {
     init: function(graph) {
         for (var i = 0, len = graph.nodes.length; i < len; i++) {
@@ -206,17 +212,6 @@ var astar = {
         }
     },
 
-    /**
-    * Perform an A* Search on a graph given a start and end node.
-    * @param {Graph} graph
-    * @param {GridNode} start
-    * @param {GridNode} end
-    * @param {Object} [options]
-    * @param {bool} [options.closest] Specifies whether to return the
-               path to the closest node if the target is unreachable.
-    * @param {Function} [options.heuristic] Heuristic function (see
-    *          astar.heuristics).
-    */
     search: function(graph, start, end, options) {
         var start_time = new Date().getTime();
         var iteration_num = 0;
@@ -317,6 +312,7 @@ function Graph(gridIn, options) {
     }
 }
 
+// Neighbors.
 Graph.prototype.neighbors = function(node) {
     var ret = [],
         x = node.x,
@@ -412,6 +408,7 @@ function BinaryHeap(scoreFunction){
     this.scoreFunction = scoreFunction;
 }
 
+// Binary Heap implementation.
 BinaryHeap.prototype = {
     push: function(element) {
         // Add the new element to the end of the array.
@@ -529,7 +526,6 @@ BinaryHeap.prototype = {
 };
 
 return {
-    // astar: astar,
     astar: astar,
     bfs: bfs,
     dfs: dfs,

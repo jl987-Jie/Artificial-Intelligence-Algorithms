@@ -1,3 +1,9 @@
+/* 
+ * Note that this site
+ * http://www.briangrinstead.com/blog/astar-search-algorithm-in-javascript 
+ * was able to provide the grid layout and the a star search. 
+ * We implemented the Breadth First Search and Depth First Search.
+ */
 var WALL = 0,
     performance = window.performance;
 
