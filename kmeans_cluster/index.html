@@ -6,6 +6,7 @@
 
     <!-- Le styles -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/main.css" rel="stylesheet">
     <style>
         body {
             padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
@@ -21,7 +22,8 @@
 <div class="navbar navbar-inverse navbar-fixed-top">
     <div class="navbar-inner">
         <div class="container-fluid">
-            <a class="brand" href="#">K-Means Example: March 10, 2014</a>
+            <a class="brand" href="../index.html">Back to Home</a>
+            <a class="brand" id="title_highlight" href="#">K-Means Visualization</a>
         </div>
     </div>
 </div>
@@ -41,8 +43,9 @@
                                 </div>
                             </div>
                         </div>
+
                         <div class="control-group">
-                            <label class="control-label" for="inputNumCentroids">Centroids</label>
+                            <label class="control-label" for="inputNumCentroids">Centroids (max: 7)</label>
                             <div class="controls">
                                 <div class="input-append">
                                     <input type="text" id="inputNumCentroids" style="width:30px;">
@@ -54,6 +57,12 @@
 
                 </form>
             </div><!--/.well -->
+            <div class="control-group">
+                <p>The K-means clustering demo will generate a set of points in the 2D space. Users can select
+                the number of clusters (centroids) that they want to cluster the points. The distance function is
+                Euclidean.
+                </p>
+            </div>
         </div><!--/span-->
         <div class="span9">
             <div class="hero-unit">
@@ -64,12 +73,6 @@
 
         </div><!--/span-->
     </div><!--/row-->
-
-    <hr>
-
-    <footer>
-        <p>&copy; Company 2013</p>
-    </footer>
 
 </div><!--/.fluid-container-->
 

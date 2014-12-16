@@ -594,3 +594,6 @@ button.btn.small, input[type="submit"].btn.small {
 .btn {
     text-decoration: underline;
 }
+#title_highlight {
+  color: white;
+}

@@ -3,7 +3,7 @@
 	<head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
-        <title>Demo - JavaScript A* Search Algorithm</title>
+        <title>Search Algorithms</title>
 		<link rel="stylesheet" type="text/css" media="screen, projection" href="demo.css" />
 		<link href="../css/bootstrap.min.css" rel="stylesheet">
 	</head>
@@ -17,6 +17,7 @@
                     <span class="sr-only">Toggle navigation</span>
                 </button>
                 <a class="navbar-brand" href="../index.html">Back to Home</a>
+                <a class="navbar-brand" id="title_highlight" href="#">Search Algorithms Visualizations</a>
             </div>
         </div>
         <!-- /.container -->
@@ -27,6 +28,7 @@
 		    	<select class="select_algo" id="algo_id">
 					<option value="astar">A Star Search</option>
 					<option value="bfs">Breadth First Search</option>
+					<option value="dfs">Depth First Search</option>
 				</select>
 				<div id="exec_time">
 					Execution time: <span id="fill_time_here"></span>ms<br>

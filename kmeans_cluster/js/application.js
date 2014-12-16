@@ -1,4 +1,3 @@
-//kmeans object: THIS IS THE INTERESTING PART OF THE SCRIPT ! 
 var KMeans = {
 
     //defining euclidean distance metric function
@@ -111,12 +110,11 @@ KMeans.Utility = {
 
 }
 
-//displaying on screen : not that pretty. could be better!
 KMeans.Demo = {}
 
 KMeans.Demo.createVisualization = function(selector, maxValue) {
 
-    var colors = ["red","green","blue","yellow","orange","grey"];
+    var colors = ["red","green","blue","yellow","orange","grey", "pink"];
     var vizPadding = 0.5;
     var animationDuration = 750;
 

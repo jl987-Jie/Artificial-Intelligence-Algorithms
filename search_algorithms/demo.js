@@ -32,6 +32,8 @@ $(function() {
             grid.setSearch(astar.search);
         } else if (algo_val == "bfs") {
             grid.setSearch(bfs.search);
+        } else if (algo_val == "dfs") {
+            grid.setSearch(dfs.search);
         }
     });
 

@@ -9,6 +9,7 @@
         var exports = definition();
         window.astar = exports.astar;
         window.bfs = exports.bfs;
+        window.dfs = exports.dfs;
         window.Graph = exports.Graph;
     }
 })(function() {
@@ -92,6 +93,56 @@ function pathLen(node) {
     return len;
 }
 
+// uniform cost search: RN&N page: 84
+var dfs = {
+    init: function(graph) {
+        for (var i = 0, len = graph.nodes.length; i < len; i++) {
+            var node = graph.nodes[i];
+            node.visited = false;
+            node.closed = false;
+            node.parent = null;
+        }
+    },
+
+    search: function(graph, start, end, options) {
+        var start_time = new Date().getTime();
+        var iteration_num = 0;
+        var path_len = 0;
+        var stack = new Array();
+
+        dfs.init(graph);
+        options = options || {};
+        stack.push(start);
+
+        while (stack.length > 0) {
+            iteration_num += 1;
+            var currentNode = stack.pop();
+            if (currentNode === end) {
+                var end_time = new Date().getTime();
+                var time = end_time - start_time;
+                $("#fill_time_here").text(time);
+                $("#num_iterations").text(iteration_num);
+                $("#fill_path_len").text(pathLen(currentNode));
+                return pathTo(currentNode);
+            }
+            currentNode.closed = true;
+            var neighbors = graph.neighbors(currentNode);
+            for (var i = 0; i < neighbors.length; i++) {
+                var neighbor = neighbors[i];
+                if (neighbor.closed || neighbor.isWall()) {
+                    continue;
+                }
+                if (!neighbor.visited) {
+                    neighbor.visited = true;
+                    neighbor.parent = currentNode;
+                    stack.push(neighbor);
+                }
+            }
+        }
+        return [];
+    }
+};
+
 // Implementation of breadth-first search using queues.
 var bfs = {
     init: function(graph) {
@@ -170,25 +221,18 @@ var astar = {
         var start_time = new Date().getTime();
         var iteration_num = 0;
         var path_len = 0;
-
         astar.init(graph);
-
         options = options || {};
         var heuristic = options.heuristic || astar.heuristics.manhattan,
             closest = options.closest || false;
-
         var openHeap = getHeap(),
             closestNode = start; // set the start node to be the closest if required
-
         start.h = heuristic(start, end);
-
         openHeap.push(start);
-
         while(openHeap.size() > 0) {
             iteration_num += 1;
             // Grab the lowest f(x) to process next.  Heap keeps this sorted for us.
             var currentNode = openHeap.pop();
-
             // End case -- result has been found, return the traced path.
             if(currentNode === end) {
                 var end_time = new Date().getTime();
@@ -198,35 +242,27 @@ var astar = {
                 $("#fill_path_len").text(pathLen(currentNode));
                 return pathTo(currentNode);
             }
-
             // Normal case -- move currentNode from open to closed, process each of its neighbors.
             currentNode.closed = true;
-
             // Find all neighbors for the current node.
             var neighbors = graph.neighbors(currentNode);
-
             for (var i = 0, il = neighbors.length; i < il; ++i) {
                 var neighbor = neighbors[i];
-
                 if (neighbor.closed || neighbor.isWall()) {
                     // Not a valid node to process, skip to next neighbor.
                     continue;
                 }
-
                 // The g score is the shortest distance from start to current node.
                 // We need to check if the path we have arrived at this neighbor is the shortest one we have seen yet.
                 var gScore = currentNode.g + neighbor.getCost(currentNode),
                     beenVisited = neighbor.visited;
-
                 if (!beenVisited || gScore < neighbor.g) {
-
                     // Found an optimal (so far) path to this node.  Take score for node to see how good it is.
                     neighbor.visited = true;
                     neighbor.parent = currentNode;
                     neighbor.h = neighbor.h || heuristic(neighbor, end);
                     neighbor.g = gScore;
                     neighbor.f = neighbor.g + neighbor.h;
-
                     if (closest) {
                         // If the neighbour is closer than the current closestNode or if it's equally close but has
                         // a cheaper path than the current closest node then it becomes the closest node
@@ -234,7 +270,6 @@ var astar = {
                             closestNode = neighbor;
                         }
                     }
-
                     if (!beenVisited) {
                         // Pushing to heap will put it in proper place based on the 'f' value.
                         openHeap.push(neighbor);
@@ -497,6 +532,7 @@ return {
     // astar: astar,
     astar: astar,
     bfs: bfs,
+    dfs: dfs,
     Graph: Graph
 };
 
