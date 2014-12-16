@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Tic-Tac-Toe Minimax Algorithm</title>
+		<link rel="stylesheet" href="main.css" />
+		<script src="main.js"></script>
+		<link href='http://fonts.googleapis.com/css?family=Ubuntu' rel='stylesheet' type='text/css'>
+	</head>
+	<body onload="start()">
+		<h1>Minimax Demo with Tic-Tac-Toe</h1>
+		
+		<table id="table">
+		<tr>
+		<td id="left">
+			<canvas width="400" height="400" id="canvas" onclick="onClick(event)"></canvas>
+			<br>
+			<br>
+			<a onclick="reset()" class="button">Start New Game</a>
+		</td>
+		<td id="right">
+			<p>
+			Negamax search is a variant form of minimax search
+			that relies on the zero-sum property of a two-player game.<br>
+			In Tic-Tac-Toe, we can set that the winner's reward is 1, and
+			the loser's reward is -1. If it is a tie, either side's reward is 0.
+			Then the game is simplied to a negamax strategy game.
+			The algorithm replies on the fact max(a, b) = -min(-a, -b).
+			Whenever Computer's Min Score shows 1, it indicates the computer will
+			definitely win the game. Since our algorithm will check every
+			possible move, it is guaranteed the computer will not lose. Therefore,
+			the lower bound of computer's min score is 0.
+			</p>
+			<br>
+			<p id="status"></p>
+			<p id="count"></p>
+			<p id="score"></p>
+		</td>
+		</tr>
+		</table>
+	</body>
+</html>
